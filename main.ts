@@ -27,3 +27,8 @@ if (text.includes("\n") || text.includes("\r")) {
 
 fs.mkdirSync("/output", { recursive: true });
 fs.writeFileSync("/output/entry.txt", text, "utf8");
+
+// Round-trip check: confirm what landed on disk is exactly what we wrote.
+if (fs.readFileSync("/output/entry.txt", "utf8") !== text) {
+  throw new Error("round-trip check failed: /output/entry.txt differs from text");
+}
